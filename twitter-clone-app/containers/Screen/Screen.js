@@ -1,14 +1,10 @@
 import { StyleSheet, Text, View } from "react-native";
-import LeftView from "../LeftView/LeftView";
-import MainView from "../MainView/MainView";
-import RightView from "../RightView/RightView";
+import Header from "../../components/Header/Header";
 
 export default function Screen() {
     return (
         <View style={styles.container}>
-            <LeftView />
-            <MainView />
-            <RightView />
+            <Header />
         </View>
     );
 }
@@ -17,6 +13,8 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: "#000000",
         flex: 1,
-        flexDirection: "row",
+        display: "flex",
+        alignContent: "space-between",
+        flexDirection: "column",
     },
 });
