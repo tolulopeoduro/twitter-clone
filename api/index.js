@@ -1,6 +1,7 @@
 import bodyParser from "body-parser";
 import express from "express";
 import { MongoClient } from "mongodb";
+import onboarding from "./src/routes/onboarding";
 import tweets from "./src/routes/tweets";
 const fs = require("fs");
 
@@ -24,3 +25,4 @@ MongoClient.connect(connectionString, (err, client) => {
 });
 
 app.use("/tweets", tweets);
+app.use("/onboarding", onboarding);
