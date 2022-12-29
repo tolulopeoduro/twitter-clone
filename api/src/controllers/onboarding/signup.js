@@ -5,8 +5,6 @@ import { ObjectID } from "bson";
 const signup = async (req, res, next) => {
     const client = req.app.locals.db;
 
-    console.log(req.body);
-
     if (req.body.email) {
         const email_exists = (await client.db("twitter-clone").collection("users").countDocuments({ email: req.body.email })) > 0;
         if (email_exists) return res.status(401).json({ message: "email already used" });

@@ -26,7 +26,6 @@ const signup = async (req, res, next) => {
                     token: token,
                 });
             });
-            console.log(user);
         });
 };
 
