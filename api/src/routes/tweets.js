@@ -11,6 +11,7 @@ const upload = multer();
 
 tweets.post("/", auth, upload.array("image"), create);
 tweets.get("/", list);
-tweets.post("/like", auth, like_tweet);
+tweets.post("/:id/like", auth, like_tweet);
+tweets.post("/:id/reply", auth, create);
 
 export default tweets;
