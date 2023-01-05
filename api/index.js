@@ -1,9 +1,13 @@
 import bodyParser from "body-parser";
 import express from "express";
 import { MongoClient } from "mongodb";
+import onboarding from "./src/routes/onboarding";
 import tweets from "./src/routes/tweets";
+const fs = require("fs");
 
 const app = express();
+
+app.use("/media", express.static("media"));
 
 const port = process.env.PORT || 4000;
 
@@ -15,9 +19,10 @@ MongoClient.connect(connectionString, (err, client) => {
     if (err) {
     }
     app.locals.db = client;
-    app.listen(process.env.PORT || 4000);
+    app.listen(port);
 
     console.log("connected");
 });
 
 app.use("/tweets", tweets);
+app.use("/onboarding", onboarding);
