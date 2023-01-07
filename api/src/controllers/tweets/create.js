@@ -1,11 +1,12 @@
 import { ObjectID } from "bson";
+import { createId } from "../../utils";
 
 const fs = require("fs");
 
 const create = (req, res, next) => {
     const client = req.app.locals.db;
     const { body, files } = req;
-    const id = `${body.userId}-${new Date().getHours()}-${new Date().getMinutes()}-${new Date().getMilliseconds()}`;
+    const id = createId(req);
     let media;
     if (files) {
         media = files.map((file) => {
@@ -24,7 +25,7 @@ const create = (req, res, next) => {
     const data = client
         .db("twitter-clone")
         .collection("tweets")
-        .insertOne({ ...{ body }, _id : id ,media: media, date: new Date().toISOString }, (error) => {
+        .insertOne({ ...body, _id : id ,media: media, date: new Date().toISOString }, (error) => {
             if (error) {
                 console.log(error);
                 return res.status(500).json({ message: "Something went wrong, please try again" });
@@ -33,6 +34,11 @@ const create = (req, res, next) => {
                 client.db("twitter-clone").collection("tweets").updateOne({_id : body.reply_for}, {$push : {replies : id}})
                 .then(() => {
                     return res.status(201).json({message : "Reply created"})
+                })
+            } else if (body.quote_tweet) {
+                client.db("twitter-clone").collection("tweets").updateOne({_id : body.quote_tweet}, {$push : {retweets : id}})
+                .then(() => {
+                    return res.status(201).json({message : "Tweet created"})
                 })
             } else {
                 res.status(201).json({
